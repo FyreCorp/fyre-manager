@@ -1,1 +1,1 @@
-# fyre-manager
+# Fyre Manager

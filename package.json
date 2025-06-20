@@ -1,0 +1,30 @@
+{
+	"name": "fyre-manager",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/app.ts",
+	"type": "module",
+	"scripts": {
+		"build": "rm -r build; tsc",
+		"start": "node -r dotenv/config build/app.js",
+		"dev": "pnpm run build && clear && pnpm run start --dev"
+	},
+	"author": "Liam Labell <thefallenspirit@outlook.com>",
+	"license": "AGPL-3.0-only",
+	"packageManager": "pnpm@10.10.0",
+	"dependencies": {
+		"@polar-sh/sdk": "^0.34.0",
+		"change-case": "^5.4.4",
+		"dotenv": "^16.5.0",
+		"fastify": "^5.4.0",
+		"fastify-raw-body": "^5.0.0",
+		"ioredis": "^5.6.1",
+		"mongoose": "^8.16.0",
+		"nanoid": "^5.1.5",
+		"seyfert": "^3.2.2"
+	},
+	"devDependencies": {
+		"@types/node": "^24.0.3",
+		"typescript": "^5.8.3"
+	}
+}
