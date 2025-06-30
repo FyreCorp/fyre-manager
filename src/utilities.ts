@@ -14,12 +14,13 @@ export const sendDM = async ({ proxy }: ApiHandler, userId: string, body: RESTPo
     let channelId = await redis.get(`fsm_dm_channel:${userId}`);
 
     if (!channelId) {
-        const channel = await proxy.users('@me').channels.post({ body: { recipient_id: userId } });
+        const channel = await proxy.users('@me').channels.post({ body: { recipient_id: userId } }).catch(() => {});
+        if (!channel) return;
+        
         channelId = channel.id;
-
         await redis.set(`fsm_dm_channel:${userId}`, channelId);
         await redis.expire(`fsm_dm_channel:${userId}`, 2629746);
     };
 
-    await proxy.channels(channelId).messages.post({ body });
+    await proxy.channels(channelId).messages.post({ body }).catch(() => {});
 };

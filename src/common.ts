@@ -1,3 +1,4 @@
+export const defaultColor = 0x249fe6;
 const dev = process.argv.includes('--dev');
 
 export const productKeys = {
