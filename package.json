@@ -21,6 +21,7 @@
 		"ioredis": "^5.6.1",
 		"mongoose": "^8.16.0",
 		"nanoid": "^5.1.5",
+		"pm2": "^6.0.8",
 		"seyfert": "^3.2.2"
 	},
 	"devDependencies": {

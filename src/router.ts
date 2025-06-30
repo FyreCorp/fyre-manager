@@ -1,7 +1,7 @@
 import { validateEvent } from "@polar-sh/sdk/webhooks.js";
 import { FastifyInstance } from "fastify";
 import { ApiHandler } from "seyfert";
-import orderPaid from "./events/orderPaid.js";
+import orderPaid from "./events/orderPaid/orderPaid.js";
 
 export default async (app: FastifyInstance, client: ApiHandler) => {
     app.get('/health', (_request, response) => {

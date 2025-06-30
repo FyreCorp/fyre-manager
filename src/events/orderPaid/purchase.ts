@@ -1,11 +1,11 @@
-import { s, sendDM } from "../utilities.js";
 import { Order } from "@polar-sh/sdk/models/components/order.js";
 import { ApiHandler, Container, TextDisplay } from "seyfert";
-import { defaultColor, productKeys } from "../common.js";
-import { updateGuild, updateUser } from "../store.js";
 import { MessageFlags } from 'seyfert/lib/types/index.js';
+import { defaultColor, productKeys } from "../../common.js";
+import { updateGuild, updateUser } from "../../store.js";
+import { s, sendDM } from "../../utilities.js";
 
-const activateServerLicense = async (client: ApiHandler, data: Order) => {
+export const activateServerLicense = async (client: ApiHandler, data: Order) => {
     const guildId = String(data.metadata['activeGuildId']!);
     await updateGuild(guildId, { $set: { active: true } });
     const guild = await client.proxy.guilds(guildId).get();
@@ -65,10 +65,7 @@ const activateUserLicense = async (client: ApiHandler, data: Order) => {
     await sendDM(client, subscriberId, { components: [container], flags: MessageFlags.IsComponentsV2 });
 };
 
-export default async (client: ApiHandler, data: Order) => {
-    const productKey = productKeys[data.productId];
-    if (!productKey) return;
-
+export default async (client: ApiHandler, data: Order, productKey: keyof typeof productKeys) => {
     switch (productKey) {
         case 'user-license': await activateUserLicense(client, data); break;
         case 'guild-license': await activateServerLicense(client, data); break;
