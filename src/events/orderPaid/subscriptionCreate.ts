@@ -6,18 +6,15 @@ import { MessageFlags } from "seyfert/lib/types/index.js";
 import CustomApp from "../../models/CustomApp.js";
 
 const sendSubscriptionNotice = async (client: ApiHandler, data: Order) => {
+    const appId = String(data.customFieldData?.['application-id']).trim();
     const guildId = String(data.metadata['activeGuildId']!);
+    
     const guild = await client.proxy.guilds(guildId).get();
-
-    await CustomApp.create({
-        guildId,
-        ownerId: data.customer.externalId,
-        appId: data.customFieldData?.appId
-    });
+    await CustomApp.create({ appId, guildId, ownerId: data.customer.externalId });
 
     const lines = [
         `### :tada: Custom Branding Sub Activated\n`,
-        `**App ID**: \`${data.customFieldData?.appId}\`\n`,
+        `**App ID**: \`${appId}\`\n`,
         `**Server**: ||${s(guild.name)} [\`${guild.id}\`]||\n\n`,
         `**Order ID**: ||\`${data.id}\`||\n`,
         `**Subscription ID**: ||\`${data.subscriptionId}\`||\n\n`,
@@ -31,6 +28,6 @@ const sendSubscriptionNotice = async (client: ApiHandler, data: Order) => {
     await sendDM(client, data.customer.externalId!, { components: [container], flags: MessageFlags.IsComponentsV2 });
 };
 
-export default async (client: ApiHandler, data: Order, productKey: keyof typeof productKeys) => {
+export default async (client: ApiHandler, data: Order, _productKey: keyof typeof productKeys) => {
     await sendSubscriptionNotice(client, data);
 };
